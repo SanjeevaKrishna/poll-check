@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PollVerse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0f;
+      color: #f0f0fa;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 24px 56px;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #8888aa;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(44px, 9vw, 84px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 18px;
+    }
+
+    h1 .grad {
+      background: linear-gradient(135deg, #f97316 0%, #a855f7 50%, #10b981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: #6b6b8a;
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      position: relative;
+    }
+
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: #13131a;
+      border: 1px solid #1e1e2e;
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      animation: up 0.5s ease both;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.05s; }
+    .card:nth-child(2) { animation-delay: 0.12s; }
+    .card:nth-child(3) { animation-delay: 0.19s; }
+    .card:nth-child(4) { animation-delay: 0.26s; }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+      border-color: var(--c);
+    }
+
+    .card-top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--c);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .card:hover .card-top-bar { transform: scaleX(1); }
+
+    .card-emoji { font-size: 52px; margin-bottom: 16px; display: block; }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      color: #6b6b8a;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-count {
+      font-size: 12px;
+      color: #6b6b8a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--c);
+      display: inline-block;
+    }
+
+    .card-cta {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c);
+    }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">🗳️ Live Polls</div>
+  <h1>Vote on<br><span class="grad">Everything.</span></h1>
+  <p class="subtitle">Pick any poll below and cast your vote instantly.</p>
+</div>
+
+<div class="grid">
+
+  <!-- ============================================================
+       CARD 1 — DOGS
+       To add a new card: copy one <a> block, change the href,
+       emoji, title, description, color, and option count.
+  ============================================================ -->
+  <a class="card" href="pages/dogs.html" style="--c:#f97316">
+    <div class="card-top-bar"></div>
+    <span class="card-emoji">🐕</span>
+    <div class="card-title">Favourite Dog Breed?</div>
+    <div class="card-desc">Cast your vote for the greatest dog breed of all time!</div>
+    <div class="card-footer">
+      <div class="card-count"><span class="dot"></span> 5 options · Open</div>
+      <div class="card-cta">Vote →</div>
+    </div>
+  </a>
+
+  <!-- CARD 2 — CATS -->
+  <a class="card" href="pages/cats.html" style="--c:#a855f7">
+    <div class="card-top-bar"></div>
+    <span class="card-emoji">🐈</span>
+    <div class="card-title">Favourite Cat Breed?</div>
+    <div class="card-desc">Which feline rules your heart? Vote now!</div>
+    <div class="card-footer">
+      <div class="card-count"><span class="dot"></span> 5 options · Open</div>
+      <div class="card-cta">Vote →</div>
+    </div>
+  </a>
+
+  <!-- CARD 3 — BIRDS -->
+  <a class="card" href="pages/birds.html" style="--c:#10b981">
+    <div class="card-top-bar"></div>
+    <span class="card-emoji">🦜</span>
+    <div class="card-title">Favourite Pet Bird?</div>
+    <div class="card-desc">Which bird would you love to keep as a pet?</div>
+    <div class="card-footer">
+      <div class="card-count"><span class="dot"></span> 5 options · Open</div>
+      <div class="card-cta">Vote →</div>
+    </div>
+  </a>
+
+</div>
+</body>
+</html>

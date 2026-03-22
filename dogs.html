@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cat Breed Poll – PollVerse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --c: #a855f7; }  /* PURPLE for cats */
+    body { background: #0a0a0f; color: #f0f0fa; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+    .wrap { max-width: 600px; margin: 0 auto; padding: 48px 24px 80px; position: relative; }
+    .back { display: inline-flex; align-items: center; gap: 8px; color: #6b6b8a; text-decoration: none; font-size: 14px; margin-bottom: 44px; transition: color 0.2s; }
+    .back:hover { color: #f0f0fa; }
+    .poll-emoji { font-size: 64px; display: block; margin-bottom: 16px; }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(26px, 5vw, 42px); font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; }
+    .poll-desc { color: #6b6b8a; font-size: 16px; line-height: 1.6; margin-bottom: 40px; }
+    .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .option { position: relative; background: #13131a; border: 1.5px solid #1e1e2e; border-radius: 14px; padding: 18px 20px; cursor: pointer; overflow: hidden; transition: border-color 0.2s, transform 0.15s; user-select: none; animation: up 0.4s ease both; }
+    .option:nth-child(1){animation-delay:0.05s} .option:nth-child(2){animation-delay:0.10s} .option:nth-child(3){animation-delay:0.15s} .option:nth-child(4){animation-delay:0.20s} .option:nth-child(5){animation-delay:0.25s}
+    .option:hover:not(.locked) { border-color: var(--c); transform: translateX(5px); }
+    .option.selected { border-color: var(--c); background: color-mix(in srgb, var(--c) 9%, #13131a); }
+    .option.locked { cursor: default; }
+    .bar { position: absolute; top: 0; left: 0; bottom: 0; background: color-mix(in srgb, var(--c) 11%, transparent); width: 0%; transition: width 0.7s cubic-bezier(0.16,1,0.3,1); border-radius: 14px; pointer-events: none; }
+    .option-inner { position: relative; display: flex; align-items: center; gap: 14px; }
+    .opt-emoji { font-size: 26px; flex-shrink: 0; }
+    .opt-label { font-size: 16px; font-weight: 500; flex: 1; }
+    .opt-pct { font-size: 13px; font-weight: 600; color: var(--c); opacity: 0; transition: opacity 0.4s; min-width: 36px; text-align: right; }
+    .opt-circle { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #2e2e42; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; transition: background 0.2s, border-color 0.2s; }
+    .option.selected .opt-circle { background: var(--c); border-color: var(--c); color: white; }
+    .btn { width: 100%; padding: 16px; background: var(--c); color: #fff; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; border: none; border-radius: 14px; cursor: pointer; letter-spacing: 0.02em; transition: opacity 0.2s, transform 0.15s; }
+    .btn:hover:not(:disabled) { opacity: 0.88; transform: translateY(-2px); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .thanks { text-align: center; color: #6b6b8a; font-size: 14px; margin-top: 20px; display: none; }
+    .total { text-align: center; color: #6b6b8a; font-size: 13px; margin-top: 14px; }
+    @keyframes up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← All Polls</a>
+  <span class="poll-emoji">🐈</span>
+  <h1>Favourite Cat Breed?</h1>
+  <p class="poll-desc">Which feline rules your heart? Vote now!</p>
+
+  <div class="options" id="options">
+    <div class="option" data-id="a">
+      <div class="bar"></div>
+      <div class="option-inner"><span class="opt-emoji">😸</span><span class="opt-label">Persian</span><span class="opt-pct">0%</span><span class="opt-circle">✓</span></div>
+    </div>
+    <div class="option" data-id="b">
+      <div class="bar"></div>
+      <div class="option-inner"><span class="opt-emoji">😺</span><span class="opt-label">Siamese</span><span class="opt-pct">0%</span><span class="opt-circle">✓</span></div>
+    </div>
+    <div class="option" data-id="c">
+      <div class="bar"></div>
+      <div class="option-inner"><span class="opt-emoji">🐱</span><span class="opt-label">Maine Coon</span><span class="opt-pct">0%</span><span class="opt-circle">✓</span></div>
+    </div>
+    <div class="option" data-id="d">
+      <div class="bar"></div>
+      <div class="option-inner"><span class="opt-emoji">🐯</span><span class="opt-label">Bengal</span><span class="opt-pct">0%</span><span class="opt-circle">✓</span></div>
+    </div>
+    <div class="option" data-id="e">
+      <div class="bar"></div>
+      <div class="option-inner"><span class="opt-emoji">🐈‍⬛</span><span class="opt-label">Scottish Fold</span><span class="opt-pct">0%</span><span class="opt-circle">✓</span></div>
+    </div>
+  </div>
+
+  <button class="btn" id="btn" disabled>Select an option to vote</button>
+  <div class="thanks" id="thanks">✅ Thanks for voting! See results above.</div>
+  <div class="total" id="total"></div>
+</div>
+<script>
+  const POLL_ID = 'cats';   // ← unique ID for this poll
+  const ids = ['a','b','c','d','e'];
+  let votes = JSON.parse(localStorage.getItem('pv_votes_' + POLL_ID) || 'null');
+  if (!votes) { votes = {}; ids.forEach(id => votes[id] = Math.floor(Math.random() * 50 + 10)); }
+  let selected = null;
+  const btn = document.getElementById('btn');
+  const options = document.querySelectorAll('.option');
+  const myVote = localStorage.getItem('pv_myvote_' + POLL_ID);
+  if (myVote) { selected = myVote; lockAndShow(); }
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (opt.classList.contains('locked')) return;
+      options.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selected = opt.dataset.id;
+      btn.disabled = false;
+      btn.textContent = 'Cast My Vote →';
+    });
+  });
+  btn.addEventListener('click', () => {
+    if (!selected) return;
+    votes[selected]++;
+    localStorage.setItem('pv_votes_' + POLL_ID, JSON.stringify(votes));
+    localStorage.setItem('pv_myvote_' + POLL_ID, selected);
+    lockAndShow();
+  });
+  function lockAndShow() {
+    const total = Object.values(votes).reduce((a,b) => a+b, 0);
+    options.forEach(opt => {
+      opt.classList.add('locked');
+      if (opt.dataset.id === selected) opt.classList.add('selected');
+      const pct = total ? Math.round(((votes[opt.dataset.id]||0)/total)*100) : 0;
+      opt.querySelector('.opt-pct').style.opacity = '1';
+      opt.querySelector('.opt-pct').textContent = pct + '%';
+      setTimeout(() => opt.querySelector('.bar').style.width = pct + '%', 60);
+    });
+    btn.style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+    document.getElementById('total').textContent = total + ' total votes';
+  }
+</script>
+</body>
+</html>
